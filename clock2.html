@@ -9,6 +9,7 @@
         #clock {
             font-size: 120px;
             font-family: monospace;
+            padding: 10px;
         }
     </style>
 </head>
@@ -35,8 +36,20 @@
             // 將時間顯示在 clock 元素中
             document.getElementById('clock').innerHTML = timeString;
 
+            // 設定整體背景顏色，使用時間的不同部分來動態變化顏色
+            var backgroundColor = generateRandomColor();
+            document.body.style.backgroundColor = backgroundColor;
+
             // 更新時鐘每100毫秒
             setTimeout(updateClock, 100);
+        }
+
+        // 生成隨機RGB顏色值
+        function generateRandomColor() {
+            var red = Math.floor(Math.random() * 256);
+            var green = Math.floor(Math.random() * 256);
+            var blue = Math.floor(Math.random() * 256);
+            return 'rgb(' + red + ',' + green + ',' + blue + ')';
         }
 
         // 初始化時鐘
