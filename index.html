@@ -4,7 +4,6 @@
   Email:  Dustin_Chen@compal.com or chuhpsdustin@gmail.com
 -->
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +13,20 @@
     <title>顯示時鐘到毫秒</title>
     <style>
         #clock {
-            font-size: 120px;
             font-family: monospace;
+            font-size: 40px; /* 預設字體大小為 24px */
         }
     </style>
 </head>
 <body>
+    <div>
+        <!-- 新增下拉選單 -->
+        <label for="fontSizeSelect">選擇字體大小：</label>
+        <select id="fontSizeSelect" onchange="changeFontSize()">
+            <!-- 使用 JavaScript 生成選項 -->
+        </select>
+    </div>
+    
     <div id="clock"></div>
 
     <script>
@@ -48,6 +55,27 @@
 
         // 初始化時鐘
         updateClock();
+
+        // 生成選項的函數
+        function generateOptions() {
+            var fontSizeSelect = document.getElementById('fontSizeSelect');
+            
+            for (var i = 10; i <= 120; i += 10) {
+                var option = document.createElement('option');
+                option.value = i;
+                option.text = i;
+                fontSizeSelect.add(option);
+            }
+        }
+
+        // 改變字體大小的函數
+        function changeFontSize() {
+            var selectedFontSize = document.getElementById('fontSizeSelect').value;
+            document.getElementById('clock').style.fontSize = selectedFontSize + 'px';
+        }
+
+        // 初始化選項
+        generateOptions();
     </script>
 </body>
 </html>
