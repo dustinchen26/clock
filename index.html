@@ -8,74 +8,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>顯示時鐘到毫秒</title>
+    <title>毫秒時鐘</title>
     <style>
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #clockContainer {
+            display: inline-block;
+            transition: all 0.5s ease-in-out;
+        }
+
         #clock {
-            font-family: monospace;
-            font-size: 40px; /* 預設字體大小為 24px */
+            font-size: 40px;
+        }
+
+        .rotated {
+            transform: rotate(90deg);
+        }
+
+        .control-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <div>
-        <!-- 新增下拉選單 -->
-        <label for="fontSizeSelect">選擇字體大小：</label>
-        <select id="fontSizeSelect" onchange="changeFontSize()">
-            <!-- 使用 JavaScript 生成選項 -->
-        </select>
+
+<div id="container">
+    <div class="control-row">
+        <label for="fontSize">字體大小：</label>
+        <input type="range" id="fontSize" min="10" max="100" value="24" onchange="changeFontSize(this.value)">
+
+        <label for="rotate">旋轉90度：</label>
+        <input type="checkbox" id="rotate" onchange="rotateClock(this.checked)">
     </div>
-    
-    <div id="clock"></div>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+    <div id="clockContainer">
+        <div id="clock">00:00:000</div>
+    </div>
+</div>
 
-    <script>
-        function updateClock() {
-            // 取得當前時間
-            var currentTime = new Date();
+<script>
+    function updateClock() {
+        const clock = document.getElementById('clock');
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const milliseconds = now.getMilliseconds().toString().padStart(3, '0');
+        clock.textContent = `${hours}:${minutes}:${seconds}:${milliseconds}`;
+        requestAnimationFrame(updateClock);
+    }
 
-            // 取得時、分、秒、毫秒
-            var hours = currentTime.getHours();
-            var minutes = currentTime.getMinutes();
-            var seconds = currentTime.getSeconds();
-            var milliseconds = currentTime.getMilliseconds();
+    function changeFontSize(size) {
+        const clock = document.getElementById('clock');
+        clock.style.fontSize = `${size}px`;
+    }
 
-            // 格式化時間
-            var timeString = hours + ':' +
-                             (minutes < 10 ? '0' : '') + minutes + ':' +
-                             (seconds < 10 ? '0' : '') + seconds + '.' +
-                             milliseconds;
-
-            // 將時間顯示在 clock 元素中
-            document.getElementById('clock').innerHTML = timeString;
-
-            // 更新時鐘每100毫秒
-            setTimeout(updateClock, 100);
+    function rotateClock(rotate) {
+        const clockContainer = document.getElementById('clockContainer');
+        if (rotate) {
+            clockContainer.classList.add('rotated');
+        } else {
+            clockContainer.classList.remove('rotated');
         }
+    }
 
-        // 初始化時鐘
-        updateClock();
+    updateClock();
+</script>
 
-        // 生成選項的函數
-        function generateOptions() {
-            var fontSizeSelect = document.getElementById('fontSizeSelect');
-            
-            for (var i = 10; i <= 120; i += 10) {
-                var option = document.createElement('option');
-                option.value = i;
-                option.text = i;
-                fontSizeSelect.add(option);
-            }
-        }
-
-        // 改變字體大小的函數
-        function changeFontSize() {
-            var selectedFontSize = document.getElementById('fontSizeSelect').value;
-            document.getElementById('clock').style.fontSize = selectedFontSize + 'px';
-        }
-
-        // 初始化選項
-        generateOptions();
-    </script>
 </body>
 </html>
