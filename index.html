@@ -43,7 +43,7 @@
         }
 
         #clock.rotated {
-            transform: rotate(90deg);
+            transform: rotate(90deg) translateX(-90px) translateY(-50px); /* 調整 translateX 的值 */
             transform-origin: left bottom;
             white-space: nowrap;
         }
@@ -65,7 +65,7 @@
     <div id="container">
         <div class="control-row">
             <label for="fontSize">字體大小：</label>
-            <input type="range" id="fontSize" min="10" max="600" value="40" onchange="changeFontSize(this.value)">
+            <input type="range" id="fontSize" min="10" max="300" value="40" onchange="changeFontSize(this.value)">
             <label for="rotate">旋轉90度：</label>
             <input type="checkbox" id="rotate" onchange="rotateClock(this.checked)">
             <button onclick="toggleDarkMode()">切換背景</button>
@@ -75,7 +75,6 @@
         <div id="clockContainer">
             <div id="clock">00:00:000</div>
         </div>
-
     </div>
 
     <script>
